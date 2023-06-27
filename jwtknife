@@ -1,0 +1,44 @@
+#!/usr/bin/env python3
+
+import sys
+import argparse
+import base64
+
+
+def err_not_jws():
+    print("Input not a JWS token", file=sys.stderr)
+    sys.exit(1)
+
+def cmd_none(args):
+    pass
+
+def cmd_peek(args):
+    f = sys.stdin
+    input = f.read()
+
+    if '.' not in input:
+        err_not_jws()
+    try:
+        parts = input.split('.')
+        if len(parts) != 3:
+            err_not_jws()
+        print(base64.urlsafe_b64decode(parts[1]+'====').decode('utf-8'))
+    except ValueError:
+        err_not_jws()
+        
+
+if __name__=='__main__':
+    parser = argparse.ArgumentParser(description="Command line JWT utility")
+    parser.set_defaults(func=cmd_none)
+    sub_parsers = parser.add_subparsers(help='commands')
+
+    # peek
+    parser_peek = sub_parsers.add_parser('peek', help='peek into an unverified payload of a compact form JWS')
+    parser_peek.set_defaults(func=cmd_peek)
+
+    # verify
+    # xxx
+
+    args = parser.parse_args()
+    
+    args.func(args)

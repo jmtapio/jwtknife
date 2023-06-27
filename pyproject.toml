@@ -1,0 +1,16 @@
+[tool.poetry]
+name = "jwtknife"
+version = "0.0.0"
+description = "Command line JWT utility"
+authors = ["Juha-Matti Tapio <jmtapio@verkkotelakka.net>"]
+license = "MIT"
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.11"
+jwcrypto = "^1.5.0"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
